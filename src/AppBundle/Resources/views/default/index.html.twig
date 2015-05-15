@@ -1,0 +1,42 @@
+{% extends 'AppBundle::base.html.twig' %}
+{% trans_default_domain "AppBundle" %}
+
+{% block body %}
+    <div class="sources-add">
+        New Source:
+        {{ form_start(sourceForm) }}
+        {{ form_widget(sourceForm) }}
+        {{ form_end(sourceForm) }}
+    </div>
+    <br>
+    <div class="transactions-add">
+        New Transaction:
+        {{ form_start(transactionForm) }}
+        {{ form_widget(transactionForm) }}
+        {{ form_end(transactionForm) }}
+    </div>
+    <br>
+    {{ 'test'|trans }}
+    {% trans %}test{% endtrans %}
+    <div class="sources-list">
+        Current Sources:
+        <table>
+            <tr>
+                <th>Source name</th>
+                <th>Source value</th>
+            </tr>
+            {% for source in sources %}
+                <tr>
+                    <td>
+                        <a href="/sources/{{source.id}}/30">
+                            {{ source.getName() }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ source.getValue() }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

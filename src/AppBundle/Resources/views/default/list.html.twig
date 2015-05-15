@@ -1,0 +1,59 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <div class="charts">
+        <div class="line-charts" style="display:block">
+            <canvas id="balanceChart" width="450" height="300"></canvas>
+            <canvas style="position: absolute" id="predictionChart" width="450" height="300"></canvas>
+        </div>
+        <div class="pie-charts" style="display:block">
+            <canvas id="expenditureChart" width="100" height="100"></canvas>
+            <canvas id="incomeChart" width="100" height="100"></canvas>
+        </div>
+    </div>
+    <a href="/source/edit/{{source.id}}">Edit Source</a>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Group</th>
+            <th>Date</th>
+        </tr>
+    {% for transaction in transactions %}
+        <tr class="transaction-row" data-id="{{ transaction.id }}" data-title="{{ transaction.title }}"data-value="{{ transaction.value }}"data-group="{{ transaction.group }}"data-time="{{ transaction.time|date('Y-m-d') }}">
+            <td>
+                {{ transaction.title }}
+            </td>
+            <td>
+                {{ transaction.value }}
+            </td>
+            <td>
+                {{ transaction.group }}
+            </td>
+            <td>
+                {{ transaction.time|date('Y-m-d') }}
+            </td>
+            <td>
+                <a href="/transaction/edit/{{transaction.id}}">E</a>
+            </td>
+        </tr>
+    {% endfor %}
+        <tr class="balance-row" data-balance="{{ source.value }}">
+            <td></td>
+            <td colspan="3">
+                Remaining funds: {{ source.getValue() }}
+            </td>
+        </tr>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts
+        '@AppBundle/Resources/public/js/Require.js'
+        '@AppBundle/Resources/public/js/Jquery.min.js'
+        '@AppBundle/Resources/public/js/Chart.js'
+        '@AppBundle/Resources/public/js/List/*'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
